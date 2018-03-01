@@ -29,12 +29,16 @@ var tokenGen = require('./jwt/token')
 
 var passport = require('passport');
 
+var axios = require('axios');
+
 console.log(process.env);
 var client_id = process.env.OIDC_ID;
 var client_secret = process.env.OIDC_SECRET;
 var authorization_url = process.env.OIDC_AUTH;
 var token_url = process.env.OIDC_TOKEN;
 var issuer_id = process.env.OIDC_ISSUER;
+
+const PORTFOLIO_SERVICE_URL = "http://portfolio-service:9080/portfolio"
 
 //TODO this needs to become a kube environment variable or secret
 var callback_url = 'https://'+process.env.PROXY_HOST+'/tradr/auth/sso/callback';
@@ -96,6 +100,61 @@ app.get('/tradr/failure', function (req, res) {
 app.get('/tradr/user', function (req, res) {
     res.send({token: tokenGen.generateAccessToken(req.session.passport.user._json), session: req.session.passport});
     //res.send(req.session.passport);
+});
+
+app.get('/portfolio', function (req, res) {
+    console.log(req.params);
+    const headers = req.get("Authorization");
+    axios
+        .get(PORTFOLIO_SERVICE_URL, {headers: req.headers})
+        .then(response => {
+        console.log(response);
+        res.send(response);
+        });
+
+});
+
+app.get('/portfolio/:user', function (req, res) {
+    const user = req.params.user;
+    console.log(req.params);
+    axios.get(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
+        .then(response => {
+        console.log(response);
+        res.send(response);
+        });
+});
+
+app.post('/portfolio/:user', function (req, res) {
+    const user = req.params.user;
+    console.log(req.params);
+    axios.post(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
+        .then(response => {
+        console.log(response);
+        res.send(response);
+        });
+});
+
+app.put('/portfolio/:user', function (req, res) {
+    const user = req.params.user;
+    const params = req.params;    console.log(req.params);
+
+    axios.get(PORTFOLIO_SERVICE_URL + "/" + params, {headers: req.headers})
+        .then(response => {
+        console.log(response);
+    res.send(response);
+});
+
+});
+
+app.delete('/portfolio/:user', function (req, res) {
+    console.log(req.params);
+    const user = req.params.user;
+    axios.delete(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
+        .then(response => {
+        console.log(response);
+        res.send(response);
+});
+
 });
 
 
