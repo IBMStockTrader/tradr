@@ -103,58 +103,61 @@ app.get('/tradr/user', function (req, res) {
 });
 
 app.get('/portfolio', function (req, res) {
-    console.log("getting all portfolios.  Params are:");
-    console.log(req.params);
     const headers = req.get("Authorization");
-    console.log("auth header: " + headers);
     axios
         .get(PORTFOLIO_SERVICE_URL, {headers: req.headers})
         .then(response => {
-        console.log(response.data);
-        res.send(response.data);
+            console.log("portfolio data received:");
+            console.log(response.data);
+            res.send(response.data);
         });
 
 });
 
 app.get('/portfolio/:user', function (req, res) {
     const user = req.params.user;
+    console.log("getting portfolio for user: "+user)
     console.log(req.params);
     axios.get(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
         .then(response => {
-        console.log(response);
-        res.send(response);
+            console.log(response.data);
+            res.send(response.data);
         });
 });
 
 app.post('/portfolio/:user', function (req, res) {
     const user = req.params.user;
-    console.log(req.params);
+    console.log("creating portfolio for user: "+user)
     axios.post(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
         .then(response => {
-        console.log(response);
-        res.send(response);
+            console.log(response.data);
+            res.send(response.data);
         });
 });
 
 app.put('/portfolio/:user', function (req, res) {
     const user = req.params.user;
-    const params = req.params;    console.log(req.params);
+    console.log("Updating portfolio for user: "+user)
+    const params = req.params;
+    console.log("parameters are: "+req.params);
 
     axios.get(PORTFOLIO_SERVICE_URL + "/" + params, {headers: req.headers})
         .then(response => {
-        console.log(response);
-    res.send(response);
+            console.log(response.data);
+            res.send(response.data);
 });
 
 });
 
 app.delete('/portfolio/:user', function (req, res) {
-    console.log(req.params);
     const user = req.params.user;
+    console.log("Deleting portfolio for user: "+user)
+    const params = req.params;
+    console.log("parameters are: "+req.params);
     axios.delete(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
         .then(response => {
-        console.log(response);
-        res.send(response);
+        console.log(response.data);
+        res.send(response.data);
 });
 
 });
