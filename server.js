@@ -109,7 +109,7 @@ app.get('/portfolio', function (req, res) {
         .then(response => {
             console.log("portfolio data received:");
             console.log(response.data);
-            res.send(response.data);
+            res.send(response);
         });
 
 });
@@ -132,6 +132,9 @@ app.post('/portfolio/:user', function (req, res) {
         .then(response => {
             console.log(response.data);
             res.send(response.data);
+        }.catch(error=> {
+            console.log(error.response);
+            res.send({ error });
         });
 });
 
@@ -141,7 +144,7 @@ app.put('/portfolio/:user', function (req, res) {
     const params = req.params;
     console.log("parameters are: "+req.params);
 
-    axios.get(PORTFOLIO_SERVICE_URL + "/" + params, {headers: req.headers})
+    axios.get(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers, params:params})
         .then(response => {
             console.log(response.data);
             res.send(response.data);
