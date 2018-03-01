@@ -103,13 +103,15 @@ app.get('/tradr/user', function (req, res) {
 });
 
 app.get('/portfolio', function (req, res) {
+    console.log("getting all portfolios.  Params are:");
     console.log(req.params);
     const headers = req.get("Authorization");
+    console.log("auth header: " + headers);
     axios
         .get(PORTFOLIO_SERVICE_URL, {headers: req.headers})
         .then(response => {
-        console.log(response);
-        res.send(response);
+        console.log(response.data);
+        res.send(response.data);
         });
 
 });
