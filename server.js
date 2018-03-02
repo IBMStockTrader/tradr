@@ -148,9 +148,9 @@ app.put('/portfolio/:user', function (req, res) {
     const user = req.params.user;
     console.log("Updating portfolio for user: "+user)
     const params = req.params;
-    console.log("parameters are: " + JSON.stringify(req.params));
+    console.log("query parameters are: " + JSON.stringify(req.query));
 
-    axios.put(PORTFOLIO_SERVICE_URL + "/" + user,"", {headers: req.headers, params:params})
+    axios.put(PORTFOLIO_SERVICE_URL + "/" + user,"", {headers: req.headers, params:req.query})
         .then(response => {
             console.log(response.data);
             res.send(response.data);
