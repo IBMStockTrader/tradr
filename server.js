@@ -84,7 +84,7 @@ app.use(passport.session());
 app.get('/tradr/auth/sso/callback', function (req, res, next) {
     var redirect_url = req.session.originalUrl;
     // var redirect_url = '/#/';
-    console.log(req.session);
+    //console.log(req.session);
     //console.log(req.session.passport.user.accessToken);
     passport.authenticate('openidconnect', {
         successRedirect: redirect_url,
@@ -189,7 +189,7 @@ app.use(function (req, res, next) {
 
 
 function ensureAuthenticated(req, res, next) {
-    console.log(req.session);
+    // console.log(req.session);
     if (!req.isAuthenticated()) {
         console.log('user not authenticated, logging in')
         req.session.originalUrl = req.originalUrl;
@@ -201,7 +201,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/tradr/hello', ensureAuthenticated, function (req, res) {
-    console.log(req.session.passport.user.accessToken);
+    // console.log(req.session.passport.user.accessToken);
     res.send('Hello, ' + req.user['id'] + '!');
 });
 

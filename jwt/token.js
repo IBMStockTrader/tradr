@@ -25,8 +25,8 @@ function generateAccessToken(decryptedTokenInfo) {
     decryptedTokenInfo.aud = process.env.JWT_AUDIENCE;
     decryptedTokenInfo.upn = decryptedTokenInfo.uniqueSecurityName;
     delete decryptedTokenInfo.ext;
-    //console.log("here is the decrypted token");
-    //console.log(decryptedTokenInfo);
+    console.log("here is the decrypted token");
+    console.log(decryptedTokenInfo);
     if(decryptedTokenInfo.address){
         //For some reason Liberty fails if the address attribute is present
         delete decryptedTokenInfo.address;
