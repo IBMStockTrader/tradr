@@ -132,7 +132,7 @@ app.post('/portfolio/:user', function (req, res) {
         .then(response => {
             console.log(response.data);
             res.send(response.data);
-        }.catch(error=> {
+        }).catch(error=> {
             console.log(error.response);
             res.send({ error });
         });
