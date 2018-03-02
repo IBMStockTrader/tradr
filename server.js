@@ -132,11 +132,13 @@ app.post('/portfolio/:user', function (req, res) {
     console.log("creating portfolio for user: "+user)
     const headers = req.get("Authorization");
     console.log("auth headers: "+ headers);
-    axios.post(PORTFOLIO_SERVICE_URL + "/" + user, "", {headers: headers})
+    axios.post(PORTFOLIO_SERVICE_URL + "/" + user, "", {headers: req.headers})
         .then(response => {
+            console.log("response from portfolio service");
             console.log(response.data);
             res.send(response.data);
         }).catch(error=> {
+            console.log("error response from portfolio service");
             console.log(error.response);
             res.send({ error });
         });
@@ -148,7 +150,7 @@ app.put('/portfolio/:user', function (req, res) {
     const params = req.params;
     console.log("parameters are: "+req.params);
 
-    axios.get(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers, params:params})
+    axios.put(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers, params:params})
         .then(response => {
             console.log(response.data);
             res.send(response.data);
