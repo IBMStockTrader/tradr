@@ -104,6 +104,8 @@ app.get('/tradr/user', function (req, res) {
 
 app.get('/portfolio', function (req, res) {
     const headers = req.get("Authorization");
+    console.log("get portfolio")
+    console.log("auth headers: "+ headers);
     axios
         .get(PORTFOLIO_SERVICE_URL, {headers: req.headers})
         .then(response => {
@@ -128,6 +130,8 @@ app.get('/portfolio/:user', function (req, res) {
 app.post('/portfolio/:user', function (req, res) {
     const user = req.params.user;
     console.log("creating portfolio for user: "+user)
+    const headers = req.get("Authorization");
+    console.log("auth headers: "+ headers);
     axios.post(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
         .then(response => {
             console.log(response.data);
