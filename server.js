@@ -109,7 +109,7 @@ app.get('/portfolio', function (req, res) {
         .then(response => {
             console.log("portfolio data received:");
             console.log(response.data);
-            res.send(response);
+            res.send(response.data);
         });
 
 });
