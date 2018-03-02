@@ -132,7 +132,7 @@ app.post('/portfolio/:user', function (req, res) {
     console.log("creating portfolio for user: "+user)
     const headers = req.get("Authorization");
     console.log("auth headers: "+ headers);
-    axios.post(PORTFOLIO_SERVICE_URL + "/" + user, {headers: req.headers})
+    axios.post(PORTFOLIO_SERVICE_URL + "/" + user, "", {headers: headers})
         .then(response => {
             console.log(response.data);
             res.send(response.data);
