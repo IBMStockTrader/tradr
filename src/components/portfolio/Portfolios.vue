@@ -79,13 +79,6 @@
                 })
             },
             updateTable(profileData) {
-                var formatter = new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                    minimumFractionDigits: 2
-                    // the default value for minimumFractionDigits depends on the currency
-                    // and is usually already 2
-                })
                 if (profileData) {
                     this.changeValue(this.data, profileData.owner, profileData.total)
                 } else {
@@ -93,7 +86,6 @@
                         .then(response => {
                             for (var i in response.data) {
                                 console.log(response.data[i]);
-                                response.data[i].total = formatter.format(response.data[i].total)
                                 this.data.push(response.data[i]);
                             }
                             console.log(response.data)

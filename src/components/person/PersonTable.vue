@@ -33,8 +33,12 @@
       <tfoot>
         <tr>
           <div class="row"><br/></div>
-          <div class="row u-float--right box--vertical-center">
-            <div class="box box--full">
+          <div class="row box--vertical-center">
+            <div class="box u-float--left box--vertical-center">
+              <hc-button class="js-modal" data-modal-target="Feedback" hc-style="secondary" hc-icon-href="hc(tools)">
+                Feedback</hc-button>
+            </div>
+            <div class="box--1 box--vertical-center">
               <hc-button class="js-modal" data-modal-target="Sell" hc-style="secondary">Sell Stock</hc-button>
               <hc-button class="js-modal" data-modal-target="Buy" hc-style="primary">Buy Stock</hc-button>
             </div>
@@ -47,6 +51,7 @@
     </table>
     <action-modal action="buy" :portfolio="data" hcName="Buy" :hcTitle="'Buy stocks for '+ data.owner"></action-modal>
     <action-modal action="sell" :portfolio="data" hcName="Sell" :hcTitle="'Sell stocks for '+ data.owner"></action-modal>
+    <feedback-modal :portfolio="data" hcName="Feedback" hcTitle="Send Feedback"></feedback-modal>
   </div>
 </template>
 
@@ -55,6 +60,7 @@
   import hcButton from '@hybrid-cloud/cirrus-vue/src/components/hc-button/hc-button'
   import stocks from './Stocks'
   import actionModal from '../portfolio/ActionModal'
+  import feedbackModal from '../portfolio/FeedbackModal'
 
   export default {
     name: 'personTable',
@@ -62,7 +68,8 @@
       'hc-icon': hcIcon,
       'hc-button': hcButton,
       'stocks': stocks,
-      'action-modal': actionModal
+      'action-modal': actionModal,
+      'feedback-modal': feedbackModal
     },
     methods: {
       sortColumn (columnIndex) {

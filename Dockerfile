@@ -19,10 +19,10 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install app dependencies
-RUN apk update && apk upgrade && apk add git
+RUN apk update && apk upgrade && apk add --no-cache git
 
 COPY . /usr/src/app/
-RUN npm install
+RUN npm install --no-optional
 RUN npm run build
 
 ENV HOST 0.0.0.0

@@ -32,7 +32,7 @@
   import hcHeadings from '@hybrid-cloud/cirrus-vue/src/components/hc-heading/hc-heading'
 
   export default {
-    name: 'personInfo',
+    name: 'portfolioPerformance',
     components: {
       'hc-heading': hcHeadings,
       'hc-icon': hcIcon

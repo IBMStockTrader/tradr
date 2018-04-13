@@ -23,13 +23,16 @@
         <span>{{ row.shares }}</span>
       </td>
       <td class="table__cell">
-        <span>{{ row.price }}</span>
+        <span>{{ format(row.commission) }}</span>
+      </td>
+      <td class="table__cell">
+        <span>{{ format(row.price) }}</span>
       </td>
       <td class="table__cell">
         <span>{{ row.date }}</span>
       </td>
       <td class="table__cell">
-        <span>{{ row.total }}</span>
+        <span>{{ format(row.total) }}</span>
       </td>
     </tr>
   </span>
@@ -45,6 +48,18 @@
     },
     props: {
       portfolioData: Object
+    },
+    methods: {
+        format(number) {
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+                // the default value for minimumFractionDigits depends on the currency
+                // and is usually already 2
+            })
+            return formatter.format(number)
+        }
     }
   }
 </script>
