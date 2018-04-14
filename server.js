@@ -73,7 +73,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({secret: 'keyboard cat', cookie: {maxAge: 60000}}))
+app.use(session({resave: 'true', saveUninitialized: 'true' , secret: 'keyboard cat'}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -101,12 +101,7 @@ app.get('/tradr/user', function (req, res) {
 
 app.get('/tradr/login', passport.authenticate('openidconnect', {}));
 
-app.all('*', function (req, res, next) {
-    ensureAuthenticated(req, res, next);
-});
-//app.use(express.static(path.join(__dirname, 'dist')));
-
-app.use('/tradr', express.static(path.join(__dirname, 'dist')));
+app.use('/tradr', ensureAuthenticated, express.static(path.join(__dirname, 'dist')));
 
 // Allow CORS
 app.use(function (req, res, next) {
