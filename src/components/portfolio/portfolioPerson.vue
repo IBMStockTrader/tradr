@@ -22,7 +22,7 @@
         </router-link>
       </td>
       <td class="table__cell">
-        <span>{{ row.total }}</span>
+        <span>{{ formatter(row.total) }}</span>
       </td>
       <td class="table__cell">
         <span>{{ row.loyalty }}</span>
@@ -70,6 +70,20 @@
       bus.$emit('triggerCirrus')
       console.log('done emitting portfolioPerson')
     },
+      methods:{
+          formatter(number) {
+              var formatter = new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                  minimumFractionDigits: 2
+                  // the default value for minimumFractionDigits depends on the currency
+                  // and is usually already 2
+              })
+              console.log('number ' + number)
+              console.log('new number ' + formatter.format(number))
+              return formatter.format(number)
+          },
+      },
     props: {
       portfolioData: Array
     }
