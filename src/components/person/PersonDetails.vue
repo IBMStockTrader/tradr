@@ -66,6 +66,15 @@
                             {{ this.portfolio.free }}
                         </div>
                     </div>
+                    <!-- <div class="row" style="padding-top: 1em"></div>
+                    <div class="row box--vertical-center box--center">
+                        <div class="box box--5 offset--1 ">
+                            <span class="u-text--bold">Messages from StockTrader </span>
+                        </div>
+                        <div class="box box--5 offset--1 box--center">
+                            {{ typeof(this.portfolio.feedbackMsg) != "undefined" ? this.portfolio.feedbackMsg : "" }}
+                        </div>
+                    </div> -->
                     <div class="row" style="padding-top: 1em"></div>
                     <div class="row box--vertical-center box--center">
                         <div class="box box--5 offset--1 ">

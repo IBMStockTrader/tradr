@@ -119,6 +119,7 @@ export default {
                     // }
                     console.log(person)
                     this.data = person
+                    this.data.feedbackMsg = ""
                     bus.$emit('triggerCirrus')
                 })
                 .catch(e => {
