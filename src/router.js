@@ -28,13 +28,13 @@ export default new Router({
             path: '/',
             name: 'Main',
             component: Main,
-            meta: {title: 'Stock Trader'}
+            meta: {title: 'StockTrader'}
         },
         {
-            path: '/person',
+            path: '/person/:data',
             name: 'Person',
             component: Person,
-            meta: {title: 'Stock Trader'}
+            meta: {title: 'StockTrader'}
         }
     ]
 })

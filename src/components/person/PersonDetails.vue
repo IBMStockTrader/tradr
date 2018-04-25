@@ -36,7 +36,7 @@
                             <span class="u-text--bold">Account Balance</span>
                         </div>
                         <div class="box box--5 offset--1 box--center">
-                            {{ this.portfolio.balance }}
+                            {{ format(this.portfolio.balance) }}
                         </div>
                     </div>
                     <div class="row" style="padding-top: 1em"></div>
@@ -45,7 +45,7 @@
                             <span class="u-text--bold">Commission Price</span>
                         </div>
                         <div class="box box--5 offset--1">
-                            {{ format(this.portfolio.commissions )}}
+                            {{ format(this.portfolio.commissions) }}
                         </div>
                     </div>
                     <div class="row" style="padding-top: 1em"></div>
@@ -54,7 +54,7 @@
                             <span class="u-text--bold">Commission Next Trade</span>
                         </div>
                         <div class="box box--5 offset--1">
-                            {{ format(this.portfolio.nextCommission )}}
+                            {{ format(this.portfolio.nextCommission) }}
                         </div>
                     </div>
                     <div class="row" style="padding-top: 1em"></div>
