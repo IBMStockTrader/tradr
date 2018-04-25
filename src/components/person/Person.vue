@@ -48,17 +48,17 @@
 </template>
 
 <script>2
-import hcPageHeader from '@hybrid-cloud/cirrus-vue/src/components/hc-page-header/hc-page-header'
-import hcCards from '@hybrid-cloud/cirrus-vue/src/components/hc-card/index.js'
+import hcPageHeader from '@hybrid-cloud/cirrus-vue/src/components/hc-page-header/hc-page-header';
+import hcCards from '@hybrid-cloud/cirrus-vue/src/components/hc-card/index.js';
 // Build on top of cirrus-vue
-import personTable from './PersonTable'
-import stockHeader from '../Header'
-import portfolioPerformance from './PortfolioPerformance'
-import personDetails from './PersonDetails'
+import personTable from './PersonTable';
+import stockHeader from '../Header';
+import portfolioPerformance from './PortfolioPerformance';
+import personDetails from './PersonDetails';
 // Import msg bus
-import bus from '../bus'
+import bus from '../bus';
 // REST project
-import axios from 'axios'
+import axios from 'axios';
 
 // Get cirrus lib
 
@@ -76,13 +76,13 @@ export default {
         // import('../../../node_modules/@hybrid-cloud/cirrus/dist/js/cirrus.es5.js')
     },
     created() {
-        bus.$on('updatedPortfolio', this.updateTable)
+        bus.$on('updatedPortfolio', this.updateTable);
     },
     mounted() {
-        this.user = this.$route.params.user
-        console.log(this.user)
-        this.getPortfolio(this.user)
-        this.rateOfReturn = this.generateRandomRateOfReturn(-5, 5, 3)
+        this.user = this.$route.params.user;
+        console.log(this.user);
+        this.getPortfolio(this.user);
+        this.rateOfReturn = this.generateRandomRateOfReturn(-5, 5, 3);
     },
     methods: {
         format(number) {
@@ -92,94 +92,117 @@ export default {
                 minimumFractionDigits: 2
                 // the default value for minimumFractionDigits depends on the currency
                 // and is usually already 2
-            })
-            console.log('number ' + number)
-            console.log('new number ' + formatter.format(number))
-            return formatter.format(number)
+            });
+            console.log('number ' + number);
+            console.log('new number ' + formatter.format(number));
+            return formatter.format(number);
         },
         generateRandomRateOfReturn(minimum, maximum, precision) {
-            minimum = minimum === undefined ? 0 : minimum
-            maximum = maximum === undefined ? 9007199254740992 : maximum
-            precision = precision === undefined ? 0 : precision
-            var random = Math.random() * (maximum - minimum) + minimum
-            return random.toFixed(precision)
+            minimum = minimum === undefined ? 0 : minimum;
+            maximum = maximum === undefined ? 9007199254740992 : maximum;
+            precision = precision === undefined ? 0 : precision;
+            var random = Math.random() * (maximum - minimum) + minimum;
+            return random.toFixed(precision);
+        },
+        getEmoji(sentiment) {
+            var emoji = "😶";
+            switch (sentiment) {
+                case 'Angry':
+                    emoji = "😡";
+                    break;
+                case 'Sadness':
+                    emoji = "😭";
+                    break;
+                case 'Fear':
+                    emoji = "😨";
+                    break;
+                case 'Joy':
+                    emoji = "😁";
+                    break;
+                case 'Analytical':
+                    emoji = "🤓";
+                    break;
+                case 'Confident':
+                    emoji = "👍";
+                    break;
+                case 'Tentative':
+                    emoji = "🤔";
+                    break;
+                default:
+                    emoji = "😐";
+                    break;
+            }
+            console.log("Sentiment is " + emoji);
+            return emoji;
         },
         getPortfolio(user) {
-            console.log('user is ' + user)
+            console.log('user is ' + user);
             axios.get('/portfolio/' + user, {headers: {'Authorization': 'Bearer ' + this.$jwt.getToken()}})
                 .then(response => {
-                    console.log('here comes the response from viewPortfolio')
-                    var person = response.data
-                    console.log(person)
-                    // Format total cost
-                    // person.total = this.format(person.total)
-                    // for (var i in person.stocks) {
-                    //   person.stocks[i].price = this.format(person.stocks[i].price)
-                    //   person.stocks[i].total = this.format(person.stocks[i].total)
-                    // }
-                    console.log(person)
-                    this.data = person
-                    this.data.feedbackMsg = ""
-                    bus.$emit('triggerCirrus')
+                    console.log('here comes the response from viewPortfolio');
+                    var person = response.data;
+                    console.log(person);
+                    this.data = person;
+                    this.data.sentiment = this.getEmoji(person.sentiment);
+                    this.data.feedbackMsg = "";
+                    bus.$emit('triggerCirrus');
                 })
                 .catch(e => {
-                    this.errors.push(e)
-                })
+                    console.log(e);
+                });
         },
         updateTable(profileData) {
-            console.log('got an updated set of stock data')
-            console.log(profileData)
-            console.log(this.owner)
-            console.log(this.data)
+            console.log('got an updated set of stock data');
+            console.log(profileData);
+            console.log(this.owner);
+            console.log(this.data);
             if (profileData.constructor !== Array) {
-                console.log('got an object')
-                // for (var i in profileData.stocks) {
-                //   profileData.stocks[i].price = this.format(profileData.stocks[i].price)
-                //   profileData.stocks[i].total = this.format(profileData.stocks[i].total)
-                // }
-                this.data = profileData
-                bus.$emit('triggerCirrus')
+                console.log('got an object');
+                this.data = profileData;
+                this.data.sentiment = this.getEmoji(profileData.sentiment);
+                bus.$emit('triggerCirrus');
             } else {
-                console.log('getting portfolio data for user ' + this.user)
-                this.getPortfolio(this.user)
+                console.log('getting portfolio data for user ' + this.user);
+                this.getPortfolio(this.user);
             }
         },
         sortColumn(colIndex) {
             // TODO Broken
             // NOTE: A sample sort, not a sensible one. Columns like status and date will likely need specific sorts
 
-            let sortFn
+            let sortFn;
 
-            console.log(colIndex)
-            console.log(this.headings[colIndex].sortedReverse)
+            console.log(colIndex);
+            console.log(this.headings[colIndex].sortedReverse);
             if (this.headings[colIndex].sortedReverse) {
-                this.headings[colIndex].sortedReverse = false
+                this.headings[colIndex].sortedReverse = false;
                 sortFn = (a, b) => {
-                    console.log('sort normal')
-                    console.log(b)
-                    console.log(a)
-                    console.log(a[this.headings[colIndex].field])
-                    console.log(b[this.headings[colIndex].field])
-                    a[this.headings[colIndex].field].localeCompare(b[this.headings[colIndex].field])
+                    console.log('sort normal');
+                    console.log(b);
+                    console.log(a);
+                    console.log(a[this.headings[colIndex].field]);
+                    console.log(b[this.headings[colIndex].field]);
+                    a[this.headings[colIndex].field].localeCompare(b[this.headings[colIndex].field]);
                 }
             } else {
                 // may not exist, use this.$set
-                this.$set(this.headings[colIndex], 'sortedReverse', true)
-                console.log('sort reverse')
+                this.$set(this.headings[colIndex], 'sortedReverse', true);
+                console.log('sort reverse');
                 sortFn = (a, b) => {
-                    console.log(b)
-                    console.log(a)
-                    console.log(a[this.headings[colIndex].field])
-                    console.log(b[this.headings[colIndex].field])
-                    b[this.headings[colIndex].field].localeCompare(a[this.headings[colIndex].field])
+                    console.log(b);
+                    console.log(a);
+                    console.log(a[this.headings[colIndex].field]);
+                    console.log(b[this.headings[colIndex].field]);
+                    b[this.headings[colIndex].field].localeCompare(a[this.headings[colIndex].field]);
                     var options = {
                         options: {
                             ignorePunctuation: true
                         }
-                    }
-                    console.log(b[this.headings[colIndex].field].localeCompare(a[this.headings[colIndex].field], options))
+                    };
+                    console.log(b[this.headings[colIndex].field].localeCompare(a[this.headings[colIndex].field],
+                        options));
                 }
-                this.data.sort(sortFn)
+                this.data.sort(sortFn);
             }
         }
     },

@@ -59,12 +59,12 @@ export const store =  new Vuex.Store({
                 if (response.data === null) {
                     console.log('no session on response')
                 } else {
-                    localStorage.setItem("userName", response.data.session.user.displayName);
+                    localStorage.setItem("userName", response.data.session.user._json.given_name);
                     localStorage.setItem("userData", response.data.session.user._json);
                     localStorage.setItem("user_jwt", response.data.token);
                     // console.log(response.data);
                     context.commit('userName', {
-                        userName: response.data.session.user.displayName,
+                        userName: response.data.session.user._json.given_name,
                         userData: response.data.session.user._json,
                         jwt_token: response.data.token
                     })

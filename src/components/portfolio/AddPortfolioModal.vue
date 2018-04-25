@@ -76,7 +76,7 @@
                         bus.$emit('addPerson', response.data)
                     })
                     .catch(e => {
-                        this.errors.push(e)
+                        console.log(e)
                     })
             }
         },

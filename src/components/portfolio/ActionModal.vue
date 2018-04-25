@@ -122,7 +122,7 @@
                         bus.$emit('updatedPortfolio', this.updatedPortfolio)
                     })
                     .catch(e => {
-                        this.errors.push(e)
+                        console.log(e)
                     })
             }
         },

@@ -79,9 +79,13 @@
                   // the default value for minimumFractionDigits depends on the currency
                   // and is usually already 2
               })
-              console.log('number ' + number)
-              console.log('new number ' + formatter.format(number))
-              return formatter.format(number)
+              console.log('number ' + number);
+              if(isNaN(number)){
+                  return number;
+              }
+              var newNum = formatter.format(number);
+              console.log('new number ' + newNum);
+              return newNum;
           },
       },
     props: {

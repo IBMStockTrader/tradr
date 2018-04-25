@@ -31,7 +31,7 @@ export default new Router({
             meta: {title: 'StockTrader'}
         },
         {
-            path: '/person/:data',
+            path: '/person/:user',
             name: 'Person',
             component: Person,
             meta: {title: 'StockTrader'}

@@ -77,16 +77,16 @@
                 }
                 axios(config)
                     .then(response => {
-                        console.log('here is the response')
-                        console.log(response.data)
-                        this.updatedPortfolio = this.portfolio
-                        this.updatedPortfolio.free = response.data.free
-                        this.updatedPortfolio.sentiment = response.data.sentiment
-                        this.updatedPortfolio.feedbackMsg = response.data.message
-                        bus.$emit('updatedPortfolio', this.updatedPortfolio)
+                        console.log('here is the response');
+                        console.log(response.data);
+                        this.updatedPortfolio = this.portfolio;
+                        this.updatedPortfolio.free = response.data.free;
+                        this.updatedPortfolio.sentiment = response.data.sentiment;
+                        this.updatedPortfolio.feedbackMsg = response.data.message;
+                        bus.$emit('updatedPortfolio', this.updatedPortfolio);
                     })
                     .catch(e => {
-                        this.errors.push(e)
+                        console.log(e);
                     })
             }
         },
