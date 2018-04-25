@@ -82,6 +82,7 @@
                 if (profileData) {
                     this.changeValue(this.data, profileData.owner, profileData.total)
                 } else {
+                    console.log("Getting portfolio with auth token")
                     axios.get('/portfolio', {headers: {'Authorization': 'Bearer ' + this.$jwt.getToken()}})
                         .then(response => {
                             for (var i in response.data) {
@@ -91,8 +92,23 @@
                             console.log(response.data)
                         })
                         .catch(e => {
-                            this.errors.push(e)
-                        })
+                            console.log(e)
+                            console.log("trying with credentials from local store");
+                            //It looks like there is a race condition here between $jwt and the storage of tokens in localstorage
+                            //so let's fall back to localStorage just in case.
+                            axios.get('/portfolio', {headers: {'Authorization': 'Bearer '+localStorage.getItem("user_jwt")}})
+                                .then(response => {
+                                    for (var i in response.data) {
+                                        console.log(response.data[i]);
+                                        this.data.push(response.data[i]);
+                                    }
+                                    console.log(response.data)
+                                })
+                                .catch(e => {
+                                    console.log(e)
+                                    console.log("Failed again")
+                                });
+                        });
                 }
             },
             sortColumn(colIndex) {
@@ -149,7 +165,7 @@
                         sortable: true,
                         field: 'total'
                     }, {
-                        label: 'Risk Tolerance',
+                        label: 'Member Level',
                         sortable: true,
                         sortedReverse: true,
                         field: 'loyalty'
