@@ -69,15 +69,15 @@ export const store =  new Vuex.Store({
                     localStorage.setItem("userName", response.data.session.user._json.given_name);
                     localStorage.setItem("userData", response.data.session.user._json);
                     localStorage.setItem("user_jwt", response.data.token);
-                    localStorage.setItem("refreshToken", response.data.refreshToken);
-                    localStorage.setItem("accessToken", response.data.accessToken);
+                    localStorage.setItem("refreshToken", response.data.session.user.refreshToken);
+                    localStorage.setItem("accessToken", response.data.session.user.accessToken);
                     console.log(response.data);
                     context.commit('userName', {
                         userName: response.data.session.user._json.given_name,
                         userData: response.data.session.user._json,
                         jwt_token: response.data.token,
-                        refreshToken:response.data.refreshToken,
-                        accessToken: response.data.accessToken
+                        refreshToken:response.data.session.user.refreshToken,
+                        accessToken: response.data.session.user.accessToken
                     })
                 }
             });

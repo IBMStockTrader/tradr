@@ -134,7 +134,7 @@ export default {
         getEmoji(sentiment) {
             var emoji = "😶";
             switch (sentiment) {
-                case 'Angry':
+                case 'Anger':
                     emoji = "😡";
                     break;
                 case 'Sadness':
