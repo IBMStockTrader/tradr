@@ -25,31 +25,52 @@
                 </div>
             </div>
             <div class="row u-push-top--large">
-                <div class="box box--2-3rd">
-                    <hc-card>
-                        <hc-card-title class="headerDivider cardHeader" hc-rank="1" hc-style-level="5">
-                            Portfolio Overview
-                        </hc-card-title>
-                        <hc-card-body>
-                            <portfolioPerformance :portfolioValue="format(this.data.total)"
-                                                  :rateOfReturn="this.rateOfReturn"></portfolioPerformance>
-                            <br/>
-                            <personTable :caption="caption" :headings="headings" :data="data"
-                                         v-on:sortColumn="sortColumn"></personTable>
-                        </hc-card-body>
-                    </hc-card>
+                <div class="box box--full">
+                    <span style="font-weight: bold;" class="eyeCatcher">
+                        <span v-html="msg"></span>
+                    </span>
                 </div>
-                <div class="box box--3rd">
-                    <personDetails :portfolio="this.data"></personDetails>
+            </div>
+            <div class="row u-push-top--large">
+                <div class="box box--full">
+                    <hc-tabs>
+                        <hc-tabs-panel id="portfolioOverview" hc-link-label="Portfolio Overview" :hc-selected="true">
+                            <hc-card>
+                                <!--<hc-card-title class="headerDivider cardHeader" hc-rank="1" hc-style-level="5">
+                                    Portfolio Overview
+                                </hc-card-title>-->
+                                <hc-card-body>
+                                    <portfolioPerformance :portfolioValue="format(this.data.total)"
+                                                          :rateOfReturn="this.rateOfReturn"></portfolioPerformance>
+                                    <br/>
+                                    <personTable :caption="caption" :headings="headings" :data="data"
+                                                 v-on:sortColumn="sortColumn"></personTable>
+                                </hc-card-body>
+                            </hc-card>
+                        </hc-tabs-panel>
+                        <hc-tabs-panel id="userInfo" hc-link-label="User Details">
+                            <div class="box box--3rd box--center">
+                                <personDetails :portfolio="this.data"></personDetails>
+                            </div>
+                        </hc-tabs-panel>
+                    </hc-tabs>
+
                 </div>
+            </div>
+            <div class="row u-push-top--large">
+
             </div>
         </div>
     </div>
 </template>
 
-<script>2
+<script>
 import hcPageHeader from '@hybrid-cloud/cirrus-vue/src/components/hc-page-header/hc-page-header';
 import hcCards from '@hybrid-cloud/cirrus-vue/src/components/hc-card/index.js';
+
+import hcTabs from '@hybrid-cloud/cirrus-vue/src/components/hc-tabs/hc-tabs';
+import hcTabsPanel from '@hybrid-cloud/cirrus-vue/src/components/hc-tabs/hc-tabs-panel';
+
 // Build on top of cirrus-vue
 import personTable from './PersonTable';
 import stockHeader from '../Header';
@@ -67,6 +88,8 @@ export default {
     components:
         Object.assign({
             'hc-page-header': hcPageHeader,
+            'hc-abs': hcTabs,
+            'hc-tabs-panel': hcTabsPanel,
             'stockHeader': stockHeader,
             'personTable': personTable,
             'portfolioPerformance': portfolioPerformance,
@@ -94,8 +117,12 @@ export default {
                 // and is usually already 2
             });
             console.log('number ' + number);
-            console.log('new number ' + formatter.format(number));
-            return formatter.format(number);
+            if(isNaN(number)){
+                return number;
+            }
+            var newNum = formatter.format(number);
+            console.log('new number ' + newNum);
+            return newNum;
         },
         generateRandomRateOfReturn(minimum, maximum, precision) {
             minimum = minimum === undefined ? 0 : minimum;
@@ -144,7 +171,8 @@ export default {
                     console.log(person);
                     this.data = person;
                     this.data.sentiment = this.getEmoji(person.sentiment);
-                    this.data.feedbackMsg = "";
+                    this.$set(this.data, 'feedbackMsg', '');
+                    this.msg = "";
                     bus.$emit('triggerCirrus');
                 })
                 .catch(e => {
@@ -160,6 +188,11 @@ export default {
                 console.log('got an object');
                 this.data = profileData;
                 this.data.sentiment = this.getEmoji(profileData.sentiment);
+                if(this.data.feedbackMsg){
+                    this.msg = 'Message from StockTrader: <font size="6">' + this.data.sentiment + "</font> "+
+                        this.data.feedbackMsg;
+                }
+
                 bus.$emit('triggerCirrus');
             } else {
                 console.log('getting portfolio data for user ' + this.user);
@@ -212,30 +245,37 @@ export default {
             caption: `<span class="u-text--bold">Clients</span>`,
             headings: [
                 {
-                    label: 'Stock Symbol',
+                    label: 'Symbol',
                     hideLabel: false,
                     sortable: true,
-                    field: 'owner'
+                    field: 'symbol'
                 }, {
                     label: 'Shares',
                     sortable: true,
-                    field: 'total'
+                    field: 'shares'
+                }, {
+                    label: 'Commission',
+                    sortable: true,
+                    field: 'commission'
                 }, {
                     label: 'Price',
                     sortable: true,
                     sortedReverse: true,
-                    field: 'loyalty'
+                    field: 'price'
                 }, {
                     label: 'Date Quoted',
-                    sortable: false
+                    sortable: false,
+                    field: 'date'
                 }, {
                     label: 'Total',
-                    sortable: false
+                    sortable: true,
+                    field: 'total'
                 }
             ],
             user: null,
             data: [],
-            rateOfReturn: null
+            rateOfReturn: null,
+            msg: null
         }
     }
 }
@@ -243,6 +283,7 @@ export default {
 
 <style lang="scss">
     @import '~@hybrid-cloud/cirrus-vue/src/globals/scss/cirrus-globals';
+    @import '../../styles/styles.scss';
 
     .headerDivider {
         padding: 10px;

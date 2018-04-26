@@ -21,7 +21,7 @@
       </caption>
       <thead v-if="headings" class="table__head">
       <tr class="table__row">
-        <th v-for="heading in headings" class="table__cell" scope="col" :key="heading.id" :is="Array"
+        <th v-for="heading in headings" class="table__cell" scope="col" :key="heading.id"
             v-on:click="sortColumn (columnIndex)">
           <span v-if="heading.label && !heading.hideLabel" v-text="heading.label"></span>
           <hc-icon v-if="heading.sortable" class="icon"

@@ -15,10 +15,10 @@
  -->
 <template>
     <hc-card>
-        <hc-card-title class="headerDivider cardHeader" hc-rank="1" hc-style-level="5">
-            {{ this.portfolio.owner }} Details
+        <!--<hc-card-title class="headerDivider cardHeader" hc-rank="1" hc-style-level="5">
+            {{ this.portfolio.owner }}
         </hc-card-title>
-        <br/>
+        <br/>-->
         <hc-card-body class="u-text--reg">
             <div class="row">
                 <div class="box box--1-4th myDivider">
@@ -42,7 +42,7 @@
                     <div class="row" style="padding-top: 1em"></div>
                     <div class="row box--vertical-center box--center">
                         <div class="box box--5 offset--1">
-                            <span class="u-text--bold">Commission Price</span>
+                            <span class="u-text--bold">Spent on Commissions</span>
                         </div>
                         <div class="box box--5 offset--1">
                             {{ format(this.portfolio.commissions) }}
@@ -66,7 +66,7 @@
                             {{ this.portfolio.free }}
                         </div>
                     </div>
-                    <!-- <div class="row" style="padding-top: 1em"></div>
+                    <div class="row" style="padding-top: 1em"></div>
                     <div class="row box--vertical-center box--center">
                         <div class="box box--5 offset--1 ">
                             <span class="u-text--bold">Messages from StockTrader </span>
@@ -74,14 +74,14 @@
                         <div class="box box--5 offset--1 box--center">
                             {{ typeof(this.portfolio.feedbackMsg) != "undefined" ? this.portfolio.feedbackMsg : "" }}
                         </div>
-                    </div> -->
+                    </div>
                     <div class="row" style="padding-top: 1em"></div>
                     <div class="row box--vertical-center box--center">
                         <div class="box box--5 offset--1 ">
                             <span class="u-text--bold">Sentiment</span>
                         </div>
                         <div class="box box--5 offset--1 box--center">
-                            {{ this.portfolio.sentiment }}
+                            <font size="12">{{ this.portfolio.sentiment }}</font>
                         </div>
                     </div>
                 </div>

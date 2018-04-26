@@ -34,7 +34,7 @@
             </tr>
             </thead>
             <tbody class="table__body">
-            <portfolioPerson v-bind:portfolioData=data></portfolioPerson>
+                <portfolioPerson v-bind:portfolioData=data></portfolioPerson>
             </tbody>
         </table>
         <!-- portfolio data must exist in trader database otherwise the modal doesn't pop up -->

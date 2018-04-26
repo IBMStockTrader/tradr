@@ -25,7 +25,9 @@ export const store =  new Vuex.Store({
     state: {
         userName: "No Name",
         userData: {},
-        jwt_token: ""
+        jwt_token: "",
+        refreshToken:"",
+        accessToken:""
     },
 
     // You can use it as a state getter function (probably the best solution)
@@ -40,15 +42,20 @@ export const store =  new Vuex.Store({
         },
         jwtToken: state => {
             return state.jwt_token;
+        },
+        refreshToken: state => {
+            return state.refreshToken;
         }
     },
 
     // Mutation for when you use it as state property
     mutations: {
         userName(state, payload) {
-            state.userName = payload.userName
-            state.userData = payload.userData
-            state.jwt_token = payload.jwt_token
+            state.userName = payload.userName;
+            state.userData = payload.userData;
+            state.jwt_token = payload.jwt_token;
+            state.refreshToken = payload.refreshToken;
+            state.accessToken=payload.accessToken;
         }
     },
 
@@ -62,11 +69,15 @@ export const store =  new Vuex.Store({
                     localStorage.setItem("userName", response.data.session.user._json.given_name);
                     localStorage.setItem("userData", response.data.session.user._json);
                     localStorage.setItem("user_jwt", response.data.token);
-                    // console.log(response.data);
+                    localStorage.setItem("refreshToken", response.data.refreshToken);
+                    localStorage.setItem("accessToken", response.data.accessToken);
+                    console.log(response.data);
                     context.commit('userName', {
                         userName: response.data.session.user._json.given_name,
                         userData: response.data.session.user._json,
-                        jwt_token: response.data.token
+                        jwt_token: response.data.token,
+                        refreshToken:response.data.refreshToken,
+                        accessToken: response.data.accessToken
                     })
                 }
             });
