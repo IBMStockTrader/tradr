@@ -51,7 +51,7 @@ var Strategy = new OpenIDConnectStrategy({
         skipUserProfile: true,
         issuer: issuer_id,
         addCACert: true,
-        CACertPathList: ['/certs/blueid-root.crt', '/certs/blueid-intermediate.crt', '/certs/blueid-server.crt', '/certs/prepiam.toronto.ca.ibm.com.pem', '/certs/idaas.iam.ibm.com.pem']
+        CACertPathList: ['/certs/blueid-root.crt', '/certs/blueid-intermediate.crt', '/certs/blueid-server.crt', '/certs/prepiam.toronto.ca.ibm.com.pem', '/certs/idaas.iam.ibm.com.pem', '/certs/digicert.crt', '/certs/idaas-digicert.crt']
     },
     function (iss, sub, profile, accessToken, refreshToken, params, done) {
         process.nextTick(function () {
@@ -73,7 +73,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({resave: 'true', saveUninitialized: 'true' , secret: 'keyboard cat'}));
+app.use(session({resave: 'true', saveUninitialized: 'true' , secret: 'keyboard cat', maxAge: 3600000}));
 app.use(passport.initialize());
 app.use(passport.session());
 
