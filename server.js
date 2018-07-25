@@ -51,7 +51,7 @@ var Strategy = new OpenIDConnectStrategy({
         skipUserProfile: true,
         issuer: issuer_id,
         addCACert: true,
-        CACertPathList: ['/certs/blueid-root.crt', '/certs/blueid-intermediate.crt', '/certs/blueid-server.crt', '/certs/prepiam.toronto.ca.ibm.com.pem', '/certs/idaas.iam.ibm.com.pem', '/certs/digicert.crt', '/certs/idaas-digicert.crt']
+        CACertPathList: ['/certs/blueid-root.crt', '/certs/blueid-intermediate.crt', '/certs/blueid-server.crt', '/certs/prepiam.toronto.ca.ibm.com.pem', '/certs/idaas.iam.ibm.com.pem', '/certs/digicert.crt', '/certs/idaas-digicert.crt', '/certs/digicert-root.pem', '/certs/digicert-subca.pem']
     },
     function (iss, sub, profile, accessToken, refreshToken, params, done) {
         process.nextTick(function () {
