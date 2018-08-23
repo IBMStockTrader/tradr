@@ -28,7 +28,9 @@ spec:
     spec:
       containers:
       - name: tradr
-        image: tradr:latest # Microservice Builder
+#       Note: this manifests/deploy.yaml will be used when we want to deploy this directly using kubectl or a helm chart. 
+#             Microclimate uses the Charts folder so we can actually have both options
+        image: ibmstocktrader/tradr:latest # Docker Hub
         #image: mycluster.icp:8500/stock-trader/tradr:latest # IBM Cloud Private
         # image: registry.ng.bluemix.net/stock_trader/tradr:latest # IBM Container Service
         ports:
