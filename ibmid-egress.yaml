@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: ibmid
+spec:
+  hosts:
+  - idaas.iam.ibm.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ibmid
+spec:
+  hosts:
+  - idaas.iam.ibm.com
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - idaas.iam.ibm.com
+    route:
+    - destination:
+        host: idaas.iam.ibm.com
+        port:
+          number: 443
+      weight: 100
+
