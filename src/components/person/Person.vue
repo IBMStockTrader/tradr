@@ -97,6 +97,9 @@ export default {
         }, hcCards.components),
     updated() {
         // import('../../../node_modules/@hybrid-cloud/cirrus/dist/js/cirrus.es5.js')
+        if (this.portfolioValue) {
+            this.getPortfolioReturns(this.user); //2nd param current portfolio value
+        }
     },
     created() {
         bus.$on('updatedPortfolio', this.updateTable);
@@ -105,7 +108,6 @@ export default {
         this.user = this.$route.params.user;
         console.log(this.user);
         this.getPortfolio(this.user);
-        this.rateOfReturn = this.generateRandomRateOfReturn(-5, 5, 3);
     },
     methods: {
         format(number) {
@@ -123,13 +125,6 @@ export default {
             var newNum = formatter.format(number);
             console.log('new number ' + newNum);
             return newNum;
-        },
-        generateRandomRateOfReturn(minimum, maximum, precision) {
-            minimum = minimum === undefined ? 0 : minimum;
-            maximum = maximum === undefined ? 9007199254740992 : maximum;
-            precision = precision === undefined ? 0 : precision;
-            var random = Math.random() * (maximum - minimum) + minimum;
-            return random.toFixed(precision);
         },
         getEmoji(sentiment) {
             var emoji = "😶";
@@ -171,9 +166,23 @@ export default {
                     console.log(person);
                     this.data = person;
                     this.data.sentiment = this.getEmoji(person.sentiment);
+                    this.portfolioValue = person.total;
                     this.$set(this.data, 'feedbackMsg', '');
                     this.msg = "";
                     bus.$emit('triggerCirrus');
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        },
+        getPortfolioReturns(user) {
+            console.log('getting returns for ' + user + ' with current portfolio value ' + this.portfolioValue);
+            axios.get('/portfolio/' + user + '/returns?currentValue=' + this.portfolioValue, {headers: {'Authorization': 'Bearer ' + this.$jwt.getToken()}})
+                .then(response => {
+                    console.log('response from getting ROI');
+                    var returnPercentage = response.data;
+                    console.log(returnPercentage);
+                    this.rateOfReturn = returnPercentage;
                 })
                 .catch(e => {
                     console.log(e);
@@ -274,6 +283,7 @@ export default {
             ],
             user: null,
             data: [],
+            portfolioValue: null,
             rateOfReturn: null,
             msg: null
         }
