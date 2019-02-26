@@ -177,7 +177,7 @@ export default {
         },
         getPortfolioReturns(user) {
             console.log('getting returns for ' + user + ' with current portfolio value ' + this.portfolioValue);
-            axios.get('/portfolio/' + user + '/returns?currentValue=' + this.portfolioValue, {headers: {'Authorization': 'Bearer ' + this.$jwt.getToken()}})
+            axios.get('/portfolio/' + user + '/returns', {headers: {'Authorization': 'Bearer ' + this.$jwt.getToken()}})
                 .then(response => {
                     console.log('response from getting ROI');
                     var returnPercentage = response.data;
