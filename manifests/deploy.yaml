@@ -112,6 +112,9 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  name: tradr-ingress
+  labels:
+    solution: stock-trader
 # annotations:
 #   ingress.kubernetes.io/rewrite-target: /tradrr
   annotations:
@@ -122,9 +125,7 @@ metadata:
     #ingress.kubernetes.io/rewrite-target: /
     ingress.kubernetes.io/secure-backends: "true"
     #ingress.kubernetes.io/app-root: "/tradr"
-  name: tradr-ingress
-  labels:
-    solution: stock-trader
+  
 spec:
   rules:
   - host:
