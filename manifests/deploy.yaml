@@ -17,13 +17,17 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: tradr
+  labels:
+    solution: stock-trader
+  annotations: { 
+    prism.subkind: Node.js
+  }
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: tradr
-        solution: stock-trader
         version: v1
     spec:
       containers:
