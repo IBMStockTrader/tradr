@@ -99,6 +99,7 @@ metadata:
   name: tradr-service
   labels:
     app: tradr
+    solution: stock-trader
 spec:
   type: NodePort
   ports:
@@ -122,6 +123,8 @@ metadata:
     ingress.kubernetes.io/secure-backends: "true"
     #ingress.kubernetes.io/app-root: "/tradr"
   name: tradr-ingress
+  labels:
+    solution: stock-trader
 spec:
   rules:
   - host:
