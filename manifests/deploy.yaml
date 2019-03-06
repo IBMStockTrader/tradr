@@ -28,6 +28,7 @@ spec:
     metadata:
       labels:
         app: tradr
+        solution: stock-trader
         version: v1
     spec:
       containers:
