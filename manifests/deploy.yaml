@@ -92,6 +92,22 @@ spec:
                 name: ingress-host
                 key: host
 ---
+#Deploy the autoscaler
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: tradr
+  labels:
+    solution: stock-trader
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: tradr
+  maxReplicas: 10
+  minReplicas: 2
+  targetCPUUtilizationPercentage: 50
+---
 #Deploy the service
 apiVersion: v1
 kind: Service
