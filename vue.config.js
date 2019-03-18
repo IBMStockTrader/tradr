@@ -15,10 +15,8 @@
  */
 
 module.exports = {
+    publicPath: '/tradr/',
     configureWebpack: {
-        output: {
-            publicPath: '/tradr/'
-        },
         resolve: {
             modules: [
                 'src/assets'
